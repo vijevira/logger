@@ -1,0 +1,9 @@
+{
+  "name": "logger",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  }
+}
