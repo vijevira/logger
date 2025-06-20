@@ -48,7 +48,7 @@ for (const transport of loggerConfig.transports || []) {
         case "daily":
             configuredTransports.push(
                 new DailyRotateFile({
-                    filename: path.join(".", "logs", `${options.filename || "app"}-%DATE%.log`),
+                    filename: path.join(".", "logs", `${options.filename || path.basename(process.cwd())}-%DATE%.log`),
                     datePattern: options.datePattern || "YYYY-MM-DD",
                     zippedArchive: options.zippedArchive || false,
                     maxSize: options.maxSize || "20m",
