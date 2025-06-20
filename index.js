@@ -33,72 +33,69 @@ const util = require("util");
  */
 const logLevel = process.env.LOG_LEVEL || "info";
 const svcName = process.env.LOG_FILE || path.basename(process.cwd());
+const defaultConfig = {
+    levels: { default: "info" },
+    transports: []
+};
 
-const transports = [];
-const transportNames = JSON.parse(process.env.LOG_TRANSPORTS || '{}');
-if (transportNames.includes("dailyRotateFile")) {
-    transports.push(
-        new DailyRotateFile({
-            filename: path.join(".", "logs", `${svcName}-%DATE%.log`),
-            datePattern: "YYYY-MM-DD",
-            zippedArchive: true,
-            maxSize: "20m",
-            maxFiles: "30d"
-        })
-    );
-}
-if (transportNames.includes("staticFile")) {
-    transports.push(
-        new winston.transports.File({
-            filename: path.join(".", "logs", "log.txt"),
-            level: logLevel
-        })
-    );
+let loggerConfig;
+try {
+    loggerConfig = JSON.parse(process.env.LOGGER_CONFIG || '{}');
+} catch (err) {
+    console.error("Invalid LOGGER_CONFIG. Falling back to defaults.", err);
+    loggerConfig = defaultConfig;
 }
 
+const logLevel = loggerConfig.levels?.default || "info";
+const configuredTransports = [];
+
+for (const transport of loggerConfig.transports || []) {
+    const type = transport.type;
+    const options = transport.options || {};
+
+    if (type === "daily") {
+        configuredTransports.push(
+            new DailyRotateFile({
+                filename: path.join(".", "logs", `${options.filename || "app"}-%DATE%.log`),
+                datePattern: options.datePattern || "YYYY-MM-DD",
+                zippedArchive: options.zippedArchive || false,
+                maxSize: options.maxSize || "20m",
+                maxFiles: options.maxFiles || "30d",
+                level: logLevel
+            })
+        );
+    } else if (type === "static") {
+        configuredTransports.push(
+            new winston.transports.File({
+                filename: path.join(".", "logs", options.filename || "static.log"),
+                level: logLevel
+            })
+        );
+    }
+}
 
 const createLogger = (fileName) => {
     return winston.createLogger({
         level: logLevel,
         format: winston.format.combine(
             winston.format.timestamp(),
-            // Custom format to include file name and structured message
             winston.format.printf(({ level, message, timestamp, ...meta }) => {
                 const extra = meta[Symbol.for("splat")] || [];
                 return `${timestamp} [${level.toUpperCase()}] : [${fileName}] - ${util.format(
                     message,
-                    ...extra.map((arg) => util.inspect(arg, { depth: null }))
+                    ...extra.map(arg => util.inspect(arg, { depth: null }))
                 )}`;
             })
         ),
         transports: [
-            new winston.transports.Console({
-                level: logLevel,
-                colorize: true
-            }),
-            ...transports
+            new winston.transports.Console({ level: logLevel }),
+            ...configuredTransports
         ],
         exceptionHandlers: [
-            new winston.transports.File({ filename: "../logs/exceptions.log" })
+            new winston.transports.File({ filename: path.join(".", "logs", "exceptions.log") })
         ],
         exitOnError: false
     });
 };
 
 module.exports = createLogger;
-// Usage example
-// const logger = require('./logger')('example.js');
-// logger.info('This is an info message');
-// logger.error('This is an error message', { error: new Error('Test error') });
-// logger.warn('This is a warning message', { warning: 'Test warning' });
-// logger.debug('This is a debug message', { debugInfo: 'Test debug info' });
-// logger.verbose('This is a verbose message', { verboseInfo: 'Test verbose info' });
-// logger.silly('This is a silly message', { sillyInfo: 'Test silly info' });
-// logger.http('This is an HTTP message', { httpInfo: 'Test HTTP info' });
-// logger.log('info', 'This is a log message', { logInfo: 'Test log info' });
-// logger.log('error', 'This is an error log message', { errorLogInfo: 'Test error log info' });
-// logger.log('warn', 'This is a warning log message', { warnLogInfo: 'Test warn log info' });
-// logger.log('debug', 'This is a debug log message', { debugLogInfo: 'Test debug log info' });
-// logger.log('verbose', 'This is a verbose log message', { verboseLogInfo: 'Test verbose log info' });
-// logger.log('silly', 'This is a silly log message', { sillyLogInfo: 'Test silly log info' });
-// logger.log('http', 'This is an HTTP log message', { httpLogInfo: 'Test HTTP log info' });

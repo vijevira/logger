@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "logger": "github:vijevira/logger",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
   }
