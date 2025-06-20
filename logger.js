@@ -1,3 +1,21 @@
+/**
+ * @file logger.js
+ * @author Vijendra Kumar
+ * @version 1.0.0
+ * @description
+ * This file implements a Winston-based logger with support for multiple transports,
+ * including daily rotating files, static files, and HTTP transports. It also supports
+ * request context management using AsyncLocalStorage for capturing request IDs and other
+ * runtime context information.
+ *
+ * © 2025 @vijevira (Vijendra Kumar)
+ * All rights reserved.
+ *
+ * This file contains documentation for the logging directory structure
+ * and usage instructions for the Winston-based logger configuration.
+ * Unauthorized copying, distribution, or modification of this file is prohibited.
+ */
+
 const winston = require("winston");
 const DailyRotateFile = require("winston-daily-rotate-file");
 const path = require("path");
