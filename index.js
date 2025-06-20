@@ -31,8 +31,6 @@ const util = require("util");
  *   2025-03-31 14:30:05 : [ERROR] - [app.js] :- Something went wrong { error: [Error: Critical failure] }
  *   ```
  */
-const logLevel = process.env.LOG_LEVEL || "info";
-const svcName = process.env.LOG_FILE || path.basename(process.cwd());
 const defaultConfig = {
     levels: { default: "info" },
     transports: []
