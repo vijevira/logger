@@ -4,7 +4,6 @@
  * @version 1.0.0
  * @license MIT
  * @module logger
- * @requires winston.createLogger
  * @description
  * This file implements a Winston-based logger with support for multiple transports,
  * including daily rotating files, static files, and HTTP transports. It also supports
