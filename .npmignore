@@ -1,0 +1,11 @@
+node_modules
+tests
+.env
+logs
+coverage
+dist
+build
+.vscode
+.DS_Store
+.idea
+*test*

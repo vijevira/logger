@@ -1,7 +1,13 @@
 {
-  "name": "logger",
+  "name": "@vijevira/logger",
   "version": "1.0.0",
   "main": "logger.js",
+  "license": "MIT",
+  "description": "A centralized logging service for Node.js applications using Winston and Daily Rotate File transport",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node logger.js"
+  },
   "dependencies": {
     "express": "^5.1.0",
     "uuid": "^11.1.0",
