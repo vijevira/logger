@@ -1,8 +1,36 @@
 {
   "name": "@vijevira/logger",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "logger.js",
   "license": "MIT",
+  "keywords": [
+    "logging",
+    "winston",
+    "daily-rotate-file",
+    "nodejs",
+    "express",
+    "logger",
+    "centralized-logging",
+    "microservices",
+    "api-logging",
+    "error-logging",
+    "debugging",
+    "application-logging",
+    "log-management",
+    "log-rotation",
+    "log-aggregation",
+    "log-file",
+    "log-transport",
+    "log-handler",
+    "log-service",
+    "log-monitoring"
+  ],
+  "author": "Vijevira",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vijevira/logger.git",
+    "directory": "logger"
+  },
   "description": "A centralized logging service for Node.js applications using Winston and Daily Rotate File transport",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
