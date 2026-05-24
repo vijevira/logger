@@ -97,6 +97,10 @@ for (const transport of loggerConfig.transports || []) {
 
 // === Create logger ===
 const createLogger = (fileName = "app") => {
+    // Winston adds one uncaughtException listener per instance via exceptionHandlers.
+    // Increment the process limit proactively so consumers never see the warning.
+    process.setMaxListeners(process.getMaxListeners() + 1);
+
     const effectiveLevel = levelOverrides[fileName] || defaultLevel;
 
     const prettyFormatter = winston.format.combine(

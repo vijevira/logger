@@ -1,6 +1,6 @@
 {
   "name": "@vijevira/logger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "logger.js",
   "license": "MIT",
   "keywords": [ "logging", "winston", "daily-rotate-file", "nodejs", "express", "logger", "centralized-logging", "microservices", "api-logging", "error-logging", "debugging", "application-logging", "log-management", "log-rotation", "log-aggregation", "log-file", "log-transport", "log-handler", "log-service", "log-monitoring" ],
