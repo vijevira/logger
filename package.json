@@ -1,6 +1,6 @@
 {
   "name": "@vijevira/logger",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "main": "logger.js",
   "license": "MIT",
   "keywords": [
